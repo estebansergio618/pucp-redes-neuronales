@@ -1,0 +1,59 @@
+---
+title: "Series de tiempo Import"
+author: "Ing. Orlando Belli"
+date: '2022-04-30'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+Escribiremos la explicación de que trata el programa
+En esta sección cargamos las librerias a utilizar
+para que no muestre el código R echo = FALSE
+para que no muestre los warnings include=FALSE
+
+```{r, echo = FALSE,include=FALSE}
+
+library(openxlsx)
+library(lubridate)
+library(dplyr)
+library(dygraphs)
+
+```
+
+## Importando datos
+
+Los datos estan en la carpeta :"ruta "
+
+```{r, echo = FALSE,include=FALSE}
+
+datos <- read.csv("importaciones peru.txt",sep = '\t')
+#head(datos)
+#str(datos$periodo)
+
+```
+
+
+```{r, echo = FALSE,include=FALSE}
+datos <- datos %>%
+         select(BienesConsumo,MateriaPrima,BienesCapital)  
+
+# creamos la fecha "manualmente"
+# la frecuencia es con respecto a un año
+
+tsdatos <- ts(datos,start = c(2014,8),frequency = 12)
+
+
+```
+
+```{r}
+dygraph(tsdatos)
+```
+
+
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
